@@ -18,12 +18,12 @@ print(parse_tree.pretty())
 
 # Step 2
 # Instantiate the transformer and use it to transform the parse tree
-transformer = LarkLarkTransformer()
-ast = transformer.transform(parse_tree)
-print(ast)
+# transformer = LarkLarkTransformer()
+# ast = transformer.transform(parse_tree)
+# print(ast)
 
 # Step 3
 # Instantiate the interpreter and use it to execute the AST
-interpreter = LarkLarkInterpreter()
-interpreter.run(ast)
+# interpreter = LarkLarkInterpreter()
+# interpreter.run(ast)
 

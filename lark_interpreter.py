@@ -41,6 +41,15 @@ class LarkLarkInterpreter:
                 self.environment.update(zip(func_params, params_values))
                 self.execute(body)
                 self.environment = original_env
+            elif nodetype == 'if_stmt':
+                condition, stmt = args
+                if self.execute(condition):
+                    self.execute(stmt)
+            elif nodetype == 'input_expr':
+                prompt, = args
+                return input(prompt)
+            elif nodetype == 'string':
+                return str(node)
             else:
                 raise NotImplementedError(f"Unknown node type: {nodetype}")
         else:
