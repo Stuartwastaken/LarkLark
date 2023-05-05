@@ -13,8 +13,7 @@ from lark_grammar import lark_lark_grammar
 lark_parser = Lark(lark_lark_grammar, start='start', parser='lalr')
 parse_tree = lark_parser.parse(source_code)
 
-print(parse_tree.pretty())
-
+# print(parse_tree.pretty())
 
 # Step 2
 # Instantiate the transformer and use it to transform the parse tree
