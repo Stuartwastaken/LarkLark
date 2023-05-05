@@ -12,8 +12,9 @@ class LarkLarkTransformer(Transformer):
         return ('assign_var', str(var_name), value)
     
     def if_stmt(self, args):
-        condition, stmt = args
-        return ('if_stmt', condition, stmt)
+        left_expr, comp_op, right_expr, _, stmts, _ = args
+        condition = ('condition', comp_op, left_expr, right_expr)
+        return ('if_stmt', condition, stmts)
 
     def input_expr(self, args):
         prompt = str(args[0])[1:-1]  # Remove quotes from the string

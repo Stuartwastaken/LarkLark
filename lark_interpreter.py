@@ -42,9 +42,10 @@ class LarkLarkInterpreter:
                 self.execute(body)
                 self.environment = original_env
             elif nodetype == 'if_stmt':
-                condition, stmt = args
-                if self.execute(condition):
-                    self.execute(stmt)
+                condition, stmts = args
+                if self.eval_condition(condition):
+                    for stmt in stmts:
+                        self.execute(stmt)
             elif nodetype == 'input_expr':
                 prompt, = args
                 return input(prompt)
