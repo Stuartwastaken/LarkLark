@@ -28,7 +28,8 @@ class LarkLarkTransformer(Transformer):
         return ('func_def', str(func_name), param_list, body)
 
     def func_call(self, args):
-        func_name, params = args
+        func_name = args[0]
+        params = args[1:]  # Get all the remaining arguments as a list
         return ('func_call', str(func_name), params)
 
     def number(self, args):

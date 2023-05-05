@@ -4,11 +4,9 @@ class LarkLarkInterpreter:
         self.functions = {}
 
     def execute(self, node):
-        # Handle leaf nodes (numeric values)
         if isinstance(node, (int, float)):
             return node
         
-        # Handle transformed nodes (tuples)
         if isinstance(node, tuple):
             nodetype, *args = node
             
@@ -33,23 +31,21 @@ class LarkLarkInterpreter:
                     self.environment[var_name] = i
                     self.execute(body)
             elif nodetype == 'func_def':
-                func_name, params, body = args
-                self.functions[func_name] = (params, body)
+                func_name, param_list, body = args
+                self.functions[func_name] = (param_list, body)
             elif nodetype == 'func_call':
-                func_name, *params = args
+                func_name, params = args
                 func_params, body = self.functions[func_name]
                 original_env = self.environment.copy()
-                self.environment.update(zip(func_params, params))
-                result = self.execute(body)
+                params_values = [self.execute(p) for p in params]
+                self.environment.update(zip(func_params, params_values))
+                self.execute(body)
                 self.environment = original_env
-                return result
-            # Add more cases for other AST node types
             else:
                 raise NotImplementedError(f"Unknown node type: {nodetype}")
         else:
             raise ValueError(f"Unexpected node format: {node}")
 
     def run(self, ast):
-        # Execute the transformed AST (expected to be a list of top-level statements)
-        for node in ast.children:
+        for node in ast:
             self.execute(node)
