@@ -41,11 +41,16 @@ class LarkLarkInterpreter:
                 func_name = node[1]
                 args = node[2]
                 params, body = self.functions[func_name]
+                # Save the current environment to restore it later
+                old_environment = dict(self.environment)
                 # Bind parameter names to their corresponding argument values
                 for param_name, arg_value in zip(params, args):
-                    self.environment[param_name] = arg_value
+                    self.environment[param_name] = self.execute(arg_value)
                 # Execute the function body
-                return self.execute(body)
+                ret_value = self.execute(body)
+                # Restore the environment to its previous state
+                self.environment = old_environment
+                return ret_value
             elif nodetype == 'if_stmt':
                 condition, body = args
                 if self.execute(condition):
